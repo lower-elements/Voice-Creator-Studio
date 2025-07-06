@@ -14,7 +14,15 @@ The interface should be similar, but not identical, to that of the [Piper Record
 
 ### Voice Training
 
-VCS should allow the user to train voices for neural engines such as Piper or Tortus; HMM-based systems such as RH Voice, Festival, Flite, or Open JTalk; concatenative systems such as Festival or Flite; singing synthesis standards such as Utau, Diff Singer, and NNSVS / ENUNU; and any other system that supports plugins (more on plugins later). Most notably, VCS should allow the user to create a language configuration for formant systems such as eSpeak-NG simply by recording a voice in that language. Using machine-learning models, VCS will do all the heavy lifting—analyzing intonation and context patterns, writing parameters, etc.—and will compile the synthesizer if need be. The user should never have to worry about any of the complicated parts of voice or language creation for any synthesizer unless they choose to.
+VCS should allow the user to train voices for:
+
+* Neural engines such as Piper or Tortus
+* HMM-based systems such as RH Voice, Festival, Flite, or Open JTalk
+* Concatenative systems such as Festival or Flite
+* Singing synthesis standards such as Utau, Diff Singer, and NNSVS / ENUNU
+* Any other system that supports plugins (more on plugins later)
+
+Most notably, VCS should allow the user to create a language configuration for formant systems such as eSpeak-NG simply by recording a voice in that language. Using machine-learning models, VCS will do all the heavy lifting—analyzing intonation and context patterns, writing parameters, etc.—and will compile the synthesizer if need be. The user should never have to worry about any of the complicated parts of voice or language creation for any synthesizer unless they choose to.
 
 ### Plugins
 
