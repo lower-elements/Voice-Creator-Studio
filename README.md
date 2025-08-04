@@ -53,3 +53,32 @@ VCS is intended to be licensed under the AGPL to ensure all improvements are giv
 ## Project Management and Repository
 
 See [docs/project-management.md](docs/project-management.md) for details on project fields, repository import/export formats, and switching or sharing projects.
+
+## Security
+
+### Authentication
+
+Use OAuth 2.0 with JWT tokens:
+
+- Rely on a trusted provider to handle user login and issue short-lived, signed JWTs for every request.
+- Store minimal data in each token (user ID, roles, expiration) and rotate signing keys regularly.
+- Provide refresh tokens only for long-lived sessions when necessary.
+
+### Role-Based Access Control and Rate Limiting
+
+- **Roles**: `admin`, `creator`, `consumer`, `guest`.
+  - `admin`: full administrative access.
+  - `creator`: upload/create voices and manage their own content.
+  - `consumer`: browse, purchase, and listen to authorized voices.
+  - `guest`: limited read-only access to public samples.
+- **Permissions**: Map roles to allowed actions at endpoint or resource level.
+- **Rate limiting**: Apply per-IP and per-token limits (e.g., 100 requests/minute). Use tighter limits for resource-intensive tasks like voice generation or downloads (e.g., 10 generations/hour) and allow higher thresholds for privileged roles.
+
+### Protection Against Unauthorized Voice Access and Downloads
+
+1. **Access Control on Storage** – store assets in secure buckets with strict IAM policies, short-lived signed URLs, and encryption at rest and in transit.
+2. **Authorization Checks** – verify JWT signature, expiration, and permissions on every request and log access for auditing.
+3. **Download Restrictions** – throttle repeated download attempts and watermark files to trace leaks.
+4. **Monitoring & Alerts** – watch for unusual download patterns and alert on anomalies.
+5. **Revocation & Expiration** – enable rapid revocation of tokens or signed URLs and allow users to revoke their own tokens.
+
