@@ -27,3 +27,25 @@ Most notably, VCS should allow the user to create a language configuration for f
 ### Plugins
 
 VCS is intended to be licensed under the AGPL to ensure all improvements are given back to the open-source community. That said, not all speech engines are licensed under the GPL family of licenses, and the goal of VCS is to make it possible to train voices for as many engines as possible. To that end, a developer should be able to write plugins for new speech engines, and those plugins should be permitted to be licensed separately from VCS itself. We can’t include Piper with VCS due to licensing complications, but we would be able to write a Piper plugin and license it under the MIT license or another similarly permissive license. Plugins will also be able to add other improvements besides support for additional TTS engines.
+
+## Technology Stack & Development Setup
+
+### Backend
+
+* **Language/Framework**: Python with [FastAPI](https://fastapi.tiangolo.com/) provides an async REST API that can easily integrate with machine-learning libraries used for training and synthesis.
+* **Packaging**: [Poetry](https://python-poetry.org/) manages dependencies and virtual environments.
+
+### Frontend
+
+* **Framework**: [React](https://react.dev/) with TypeScript via [Vite](https://vitejs.dev/) for fast development and production builds.
+* **Styling**: [Tailwind CSS](https://tailwindcss.com/) supplies a utility-first approach that keeps styles consistent and composable.
+
+### Development Tooling
+
+* **Code Quality**: [`pre-commit`](https://pre-commit.com/) runs Black, isort, Flake8, and MyPy for Python code, plus ESLint and Prettier for the frontend.
+* **Environment**: [Docker](https://www.docker.com/) images ensure reproducible development and deployment setups.
+
+### Build Pipeline
+
+* **Continuous Integration**: GitHub Actions lint and test both backend and frontend on every pull request.
+* **Deployment**: Successful builds publish a multi-service Docker image that serves the FastAPI backend and the static React frontend.
