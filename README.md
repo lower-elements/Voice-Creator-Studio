@@ -24,6 +24,21 @@ VCS should allow the user to train voices for:
 
 Most notably, VCS should allow the user to create a language configuration for formant systems such as eSpeak-NG simply by recording a voice in that language. Using machine-learning models, VCS will do all the heavy lifting—analyzing intonation and context patterns, writing parameters, etc.—and will compile the synthesizer if need be. The user should never have to worry about any of the complicated parts of voice or language creation for any synthesizer unless they choose to.
 
+#### Data Preprocessing Formats
+
+- **Neural engines (e.g., Piper, Tortus):** Training data lives in a `wavs/` directory of mono 16‑kHz PCM files with a companion `metadata.csv` containing `id|transcript|normalized_text` entries. Language‑specific text normalization occurs during preprocessing, and datasets are split into train/validation sets.
+- **HMM-based engines (e.g., RH Voice, Festival, Flite, Open JTalk):** Audio is resampled to 22.05 kHz or 24 kHz and paired with `.lab` files or manifests. Preprocessing produces contextual labels and duration files consumed by the trainer.
+- **Concatenative engines (Festival/Flite):** Larger recordings include annotated label files; preprocessing segments them and extracts pitch and phoneme features for later concatenation.
+- **Singing-synthesis engines (Utau, DiffSinger, NNSVS/ENUNU):** Datasets combine audio with pitch/timing annotations such as MusicXML or UST. Preprocessing converts these to engine‑specific score and acoustic feature representations.
+
+#### Job Scheduling and Resource Management
+
+Training and cleanup tasks run asynchronously through Celery with Redis as broker and result store. Each job receives a unique ID, and workers are allocated according to available CPU or GPU resources. Dedicated queues and worker concurrency limits prevent oversubscription and allow GPU‑enabled jobs to be routed separately from CPU‑only work.
+
+#### Monitoring and Control
+
+Workers publish progress percentages and log snippets to Redis. Clients poll the `/progress/{job_id}` endpoint or subscribe to a WebSocket feed to display progress bars. Users can cancel a running task, which preserves intermediate checkpoints; resuming queues a new job that picks up from the saved state.
+
 ### Plugins
 
 VCS is intended to be licensed under the AGPL to ensure all improvements are given back to the open-source community. That said, not all speech engines are licensed under the GPL family of licenses, and the goal of VCS is to make it possible to train voices for as many engines as possible. To that end, a developer should be able to write plugins for new speech engines, and those plugins should be permitted to be licensed separately from VCS itself. We can’t include Piper with VCS due to licensing complications, but we would be able to write a Piper plugin and license it under the MIT license or another similarly permissive license. Plugins will also be able to add other improvements besides support for additional TTS engines.
