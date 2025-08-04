@@ -68,6 +68,10 @@ VCS is intended to be licensed under the AGPL to ensure all improvements are giv
 * **Continuous Integration**: GitHub Actions lint and test both backend and frontend on every pull request.
 * **Deployment**: Successful builds publish a multi-service Docker image that serves the FastAPI backend and the static React frontend.
 
+## Deployment and Scaling
+
+See [docs/deployment.md](docs/deployment.md) for container deployment targets, scaling strategies for web traffic and background workers, and hardware requirements for training and inference.
+
 ## Project Management and Repository
 
 See [docs/project-management.md](docs/project-management.md) for details on project fields, repository import/export formats, and switching or sharing projects.
