@@ -34,6 +34,9 @@ VCS is intended to be licensed under the AGPL to ensure all improvements are giv
 
 * **Language/Framework**: Python with [FastAPI](https://fastapi.tiangolo.com/) provides an async REST API that can easily integrate with machine-learning libraries used for training and synthesis.
 * **Packaging**: [Poetry](https://python-poetry.org/) manages dependencies and virtual environments.
+* **Audio Cleanup**: [noisereduce](https://github.com/timsainb/noisereduce) removes background noise and [pydub](https://github.com/jiaaro/pydub) handles normalization.
+* **Transcription**: [OpenAI Whisper](https://openai.com/research/whisper) (medium model) produces transcripts stored as editable JSON with word-level timestamps.
+* **Asynchronous Jobs**: [Celery](https://docs.celeryq.dev/) with Redis runs background tasks and streams progress updates to clients via WebSockets (see [docs/asynchronous-jobs.md](docs/asynchronous-jobs.md)).
 
 ### Frontend
 
